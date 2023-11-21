@@ -321,23 +321,26 @@ def get_args_parser():
     return parser
 
 def custom_collate(batch):
-    # We expect that each `item` in `batch` is a list of tensors (since your one_channel_loader returns a list of tensors)
-    # We will concatenate these tensors along a new dimension (at dim=0)
+    # Unzip the batch to separate sequences for data and targets/labels
+    data, targets = zip(*batch)
     
-    # Check if we have a list of tensors or a single tensor
-    if isinstance(batch[0], torch.Tensor):
+    # Handle the data part
+    if isinstance(data[0], torch.Tensor):
         # All items are tensors (single channel case)
         print('in custom_collate: All items are tensors (single channel case)')
-        return torch.stack(batch, dim=0)
-    elif isinstance(batch[0], list):
+        data = torch.stack(data, dim=0)
+    elif isinstance(data[0], list):
         # Each item is a list of tensors (multi-channel case)
         # We will stack tensors from each channel separately
         print('in custom_collate: each item is a list of tensors (multi-channel case)')
-        batch_by_channel = zip(*batch)  # Transpose the batch list
-        return [torch.stack(channel_tensors, dim=0) for channel_tensors in batch_by_channel]
+        data = [torch.stack(channel_tensors, dim=0) for channel_tensors in zip(*data)]
     else:
-        raise TypeError(f"Unsupported batch data type {type(batch[0])}")
+        raise TypeError(f"Unsupported batch data type {type(data[0])}")
+    
+    # Handle the targets part (assuming targets are already in the desired format)
+    targets = torch.tensor(targets) if isinstance(targets[0], int) else targets
 
+    return data, targets
 
 def train_dino(args, config):
     utils.init_distributed_mode(args)
