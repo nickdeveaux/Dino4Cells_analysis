@@ -40,6 +40,8 @@ from utils import vision_transformer as vits
 from utils.vision_transformer import DINOHead
 from utils.yaml_tfms import tfms_from_config
 from torch.utils.data._utils.collate import default_collate
+from torchvision.transforms import ToTensor
+
 
 
 torchvision_archs = sorted(
@@ -319,22 +321,25 @@ def get_args_parser():
     return parser
 
 def custom_collate(batch):
-    # The input `batch` is a list where each item is the list of channel images
-    # returned by `one_channel_loader`.
+    # Convert image data to tensors if not already done
+    batch = [[ToTensor()(image) if not isinstance(image, torch.Tensor) else image for image in images] for images in batch]
 
-    # We expect each item in the batch to be a list of tensors (images)
-    # We transpose this to a list (over batch) of lists (over channels) of tensors
-    transposed = list(zip(*batch))
-    
-    # Now, we have a list where each item corresponds to a channel across the batch
-    # We collate each item (channel) separately and then stack them into a single tensor
-    collated_batch = [default_collate(channel_data) for channel_data in transposed]
-    
-    # Finally, we stack the collated channel tensors along a new dimension
-    # The new dimension is at position 1 since position 0 is for the batch
-    # If each image tensor is of shape (H, W), then the final shape will be (batch_size, num_channels, H, W)
-    collated_batch = torch.stack(collated_batch, dim=1)
-    
+    # Now we have a list of lists (over batch) of tensors (over channels)
+    # We will stack tensors from each channel across the batch
+    collated_batch = []
+    for images in zip(*batch):  # Transpose the batch
+        if isinstance(images[0], torch.Tensor):
+            # Stack all tensor images from the batch into a single tensor
+            collated_batch.append(torch.stack(images, dim=0))
+        else:
+            # If not tensors, just collect the images into a list
+            collated_batch.append(list(images))
+
+    # If we have a list of tensors, we can stack along a new dimension
+    if all(isinstance(item, torch.Tensor) for item in collated_batch):
+        collated_batch = torch.stack(collated_batch, dim=1)
+    # Otherwise, we cannot stack and have to return the list as-is
+
     return collated_batch
 
 def train_dino(args, config):
@@ -580,7 +585,7 @@ def train_one_epoch(
             param_group["lr"] = lr_schedule[it]
             if i == 0:  # only the first group is regularized
                 param_group["weight_decay"] = wd_schedule[it]
-    
+
         # move images to gpu
         images = [im.cuda(non_blocking=True) for im in  images]
         # teacher and student forward passes + compute dino loss
