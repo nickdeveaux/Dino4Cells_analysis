@@ -27,8 +27,6 @@ def one_channel_loader(path, training=True):
     img = io.imread(path)
     if training:
         ch = np.random.randint(0, 4)
-        return t(img[:, :, ch])
-    else:
         return [t(img[:, :, i]) for i in range(img.shape[-1])]
 
 
