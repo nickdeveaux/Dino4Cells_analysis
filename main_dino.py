@@ -321,26 +321,15 @@ def get_args_parser():
     return parser
 
 def custom_collate(batch):
-    # Convert image data to tensors if not already done
-    batch = [[ToTensor()(image) if not isinstance(image, torch.Tensor) else image for image in images] for images in batch]
+    # Handle the list of tensors returned by one_channel_loader
+    # Stack all tensors from each channel across the batch into a single tensor
+    batch = [torch.stack([item for item in sample], dim=0) for sample in zip(*batch)]
 
-    # Now we have a list of lists (over batch) of tensors (over channels)
-    # We will stack tensors from each channel across the batch
-    collated_batch = []
-    for images in zip(*batch):  # Transpose the batch
-        if isinstance(images[0], torch.Tensor):
-            # Stack all tensor images from the batch into a single tensor
-            collated_batch.append(torch.stack(images, dim=0))
-        else:
-            # If not tensors, just collect the images into a list
-            collated_batch.append(list(images))
+    # Since we now have a list of stacked tensors, we can stack along a new dimension
+    # to create a batch of them
+    batch = torch.stack(batch, dim=0)
 
-    # If we have a list of tensors, we can stack along a new dimension
-    if all(isinstance(item, torch.Tensor) for item in collated_batch):
-        collated_batch = torch.stack(collated_batch, dim=1)
-    # Otherwise, we cannot stack and have to return the list as-is
-
-    return collated_batch
+    return batch
 
 def train_dino(args, config):
     utils.init_distributed_mode(args)
