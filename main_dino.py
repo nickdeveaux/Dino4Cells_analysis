@@ -39,6 +39,7 @@ from archs import xresnet as cell_models
 from utils import vision_transformer as vits
 from utils.vision_transformer import DINOHead
 from utils.yaml_tfms import tfms_from_config
+from torch.utils.data._utils.collate import default_collate
 
 
 torchvision_archs = sorted(
@@ -317,6 +318,24 @@ def get_args_parser():
     parser.add_argument("--config", default=".", type=str)
     return parser
 
+def custom_collate(batch):
+    # The input `batch` is a list where each item is the list of channel images
+    # returned by `one_channel_loader`.
+
+    # We expect each item in the batch to be a list of tensors (images)
+    # We transpose this to a list (over batch) of lists (over channels) of tensors
+    transposed = list(zip(*batch))
+    
+    # Now, we have a list where each item corresponds to a channel across the batch
+    # We collate each item (channel) separately and then stack them into a single tensor
+    collated_batch = [default_collate(channel_data) for channel_data in transposed]
+    
+    # Finally, we stack the collated channel tensors along a new dimension
+    # The new dimension is at position 1 since position 0 is for the batch
+    # If each image tensor is of shape (H, W), then the final shape will be (batch_size, num_channels, H, W)
+    collated_batch = torch.stack(collated_batch, dim=1)
+    
+    return collated_batch
 
 def train_dino(args, config):
     utils.init_distributed_mode(args)
@@ -351,6 +370,7 @@ def train_dino(args, config):
         dataset,
         sampler=sampler,
         batch_size=args.batch_size_per_gpu,
+        collate_fn = custom_collate,
         num_workers=args.num_workers,
         pin_memory=True,
         drop_last=True,
@@ -561,8 +581,10 @@ def train_one_epoch(
             if i == 0:  # only the first group is regularized
                 param_group["weight_decay"] = wd_schedule[it]
 
+        # flatten images into a single list (due to one_channel loader)
+        images = [item for sublist in images for item in (sublist if isinstance(sublist, list) else [sublist])]
         # move images to gpu
-        images = [im.cuda(non_blocking=True) for im in images]
+        images = [im.cuda(non_blocking=True) for im in  images]
         # teacher and student forward passes + compute dino loss
         with torch.cuda.amp.autocast(fp16_scaler is not None):
             teacher_output = teacher(
