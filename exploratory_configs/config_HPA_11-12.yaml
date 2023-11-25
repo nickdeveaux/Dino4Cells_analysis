@@ -8,7 +8,7 @@
    datatype: HPA
    image_mode: normalized_4_channels
    saveckp_freq: 50
-   batch_size_per_gpu: 24
+   batch_size_per_gpu: 1
    num_channels: 4
    patch_size: 16
    epochs: 10
@@ -23,7 +23,7 @@
    output_path: output_default4channel_10khpa_11-12/DINO_features_for_HPA_FOV.pth
    df_path: 10k_hpa_download_annotated.csv
    image_size: 56 
-   num_workers: 4
+   num_workers: 8
    embedding_has_labels: True
    target_labels: [nucleoplasm,nuclear membrane,nucleoli,nucleoli fibrillar center,nuclear speckles,nuclear bodies,endoplasmic reticulum,golgi apparatus,peroxisomes,endosomes,lysosomes,intermediate filaments,actin filaments,focal adhesion sites,microtubules,microtubule ends,cytokinetic bridge,mitotic spindle,microtubule organizing center,centrosome,lipid droplets,plasma membrane,cell junctions,mitochondria,aggresome,cytosol,cytoplasmic bodies,rods & rings]
 
