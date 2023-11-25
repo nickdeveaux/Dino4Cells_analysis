@@ -3,12 +3,12 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: hpa_downloaded_11_12_proper.csv
+   data_path: 10k_hpa_download_annotated.csv
    output_dir: output_11_17_single_loader
    datatype: HPA
    image_mode: one_channel 
    saveckp_freq: 50
-   batch_size_per_gpu: 6
+   batch_size_per_gpu: 1
    num_channels: 1
    patch_size: 16
    epochs: 10
@@ -21,9 +21,9 @@
  embedding:
    pretrained_weights: output_11_17_single_loader/checkpoint.pth
    output_path: output_11_17_single_loader/DINO_features_for_HPA_FOV.pth
-   df_path: hpa_downloaded_11_12_proper.csv 
+   df_path: 10k_hpa_download_annotated.csv 
    image_size: 224 
-   num_workers: 1
+   num_workers: 4
    embedding_has_labels: True
    target_labels: False
 
