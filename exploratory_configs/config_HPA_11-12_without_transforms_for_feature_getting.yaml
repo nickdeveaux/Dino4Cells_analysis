@@ -111,7 +111,7 @@
     - False
     - {c: 3}
    ToTensor: 
-    - True
+    - Truer
     - # no params
    Normalize: 
     - False
@@ -119,6 +119,9 @@
    self_normalize: 
     - True
     - # no params
+  FA_resize:
+    - True
+    - {size: 512}
  # --- Global crops 1 ---: 
  global_transfo1:
    Warp_cell:
