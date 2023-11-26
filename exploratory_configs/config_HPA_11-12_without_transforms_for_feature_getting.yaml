@@ -178,7 +178,7 @@
     - False
     - # no params
    FA_resize:
-    - False
+    - True
     - {size: 512}
    Single_cell_Resize:
     - False
@@ -342,44 +342,6 @@
     - {p: 0.2}
    rnd_dihedral:
     - False
-    - # no params
-
- testing_transfo:
-   Single_cell_centered:
-    - False
-    - # no params
-   Single_cell_random_resize:
-    - False
-    - # no params
-   FA_resize:
-    - False
-    - {size: 512}
-   Single_cell_Resize:
-    - False
-    - # no params
-   Single_cell_Mirror: 
-    - False
-    - # no params
-   Get_specific_channel:
-    - False
-    - {c: 0}
-   Get_specific_channel:
-    - False
-    - {c: 1}
-   Get_specific_channel:
-    - False
-    - {c: 2}
-   Get_specific_channel:
-    - False
-    - {c: 3}
-   ToTensor: 
-    - True
-    - # no params
-   Normalize: 
-    - False
-    - {mean: [0.1450534, 0.11360057, 0.1231717, 0.14919987], std: [0.18122554, 0.14004277, 0.18840286, 0.17790672]}
-   self_normalize: 
-    - True
     - # no params
 
  #  --- Global crops 2 ---: 
