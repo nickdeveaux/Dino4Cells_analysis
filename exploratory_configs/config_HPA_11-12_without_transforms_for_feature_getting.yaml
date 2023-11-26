@@ -119,7 +119,7 @@
    self_normalize: 
     - True
     - # no params
-  FA_resize:
+   FA_resize:
     - True
     - {size: 512}
  # --- Global crops 1 ---: 
