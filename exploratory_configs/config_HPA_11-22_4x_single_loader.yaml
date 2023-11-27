@@ -3,7 +3,7 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: hpa_downloaded_11_12_proper.csv
+   data_path: 10k_hpa_download_annotated.csv
    output_dir: output_11_22_single_loader_4x1d
    datatype: HPA
    image_mode: one_channel 
@@ -21,11 +21,11 @@
  embedding:
    pretrained_weights: output_11_22_single_loader_4x1d/checkpoint.pth
    output_path: output_11_22_single_loader_4x1d/DINO_features_for_HPA_FOV.pth
-   df_path: hpa_downloaded_11_12_proper.csv 
+   df_path: 10k_hpa_download_annotated.csv
    image_size: 224 
    num_workers: 1
    embedding_has_labels: True
-   target_labels: False
+   target_labels: [nucleoplasm,nuclear membrane,nucleoli,nucleoli fibrillar center,nuclear speckles,nuclear bodies,endoplasmic reticulum,golgi apparatus,peroxisomes,endosomes,lysosomes,intermediate filaments,actin filaments,focal adhesion sites,microtubules,microtubule ends,cytokinetic bridge,mitotic spindle,microtubule organizing center,centrosome,lipid droplets,plasma membrane,cell junctions,mitochondria,aggresome,cytosol,cytoplasmic bodies,rods & rings]
 
  classification:
    averaged_features_path: results/HPA_FOV_classification//averaged_features.pth

@@ -119,9 +119,6 @@
    self_normalize: 
     - True
     - # no params
-   FA_resize:
-    - True
-    - {size: 512}
  # --- Global crops 1 ---: 
  global_transfo1:
    Warp_cell:
@@ -134,7 +131,7 @@
     - False
     - # no params
    FA_resize:
-    - True
+    - False
     - {size: 512}
    Single_cell_Resize:
     - False
@@ -179,7 +176,7 @@
     - # no params
    FA_resize:
     - True
-    - {size: 512}
+    - {size: 244}
    Single_cell_Resize:
     - False
     - # no params
