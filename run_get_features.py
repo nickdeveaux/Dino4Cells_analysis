@@ -219,6 +219,7 @@ if __name__ == "__main__":
                 features = torch.reshape(f, (f.shape[0], f.shape[1] * f.shape[2]))
                 del f
         else:
+            print(f"images.shape: {images.shape}")
             # Single image
             with torch.no_grad():
                 features = model(images.to(device))
