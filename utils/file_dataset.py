@@ -264,6 +264,10 @@ class ImageFileList(data.Dataset):
             else:
                 img = self.transform(img)
 
+        if not self.training:
+            # Print the shape and dtype of each numpy array to get an estimate of memory usage
+            img_memory = img.element_size() * img.nelement()
+            print(f"Image memory: {img_memory / (1024**2):.2f} MB")
         # Return the item
         if self.training:
             return img, ID

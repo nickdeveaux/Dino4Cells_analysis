@@ -3,13 +3,13 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: 10k_hpa_download_annotated.csv 
-   output_dir: output_default4channel_10khpa_11-12
+   data_path: 10k_hpa_download_annotated.csv
+   output_dir: output_11_22_single_loader_4x1d
    datatype: HPA
-   image_mode: normalized_4_channels
+   image_mode: one_channel 
    saveckp_freq: 50
-   batch_size_per_gpu: 4
-   num_channels: 4
+   batch_size_per_gpu: 6
+   num_channels: 1
    patch_size: 16
    epochs: 10
    momentum_teacher: 0.996
@@ -19,10 +19,10 @@
    local_crops_scale: '0.2 0.5'
 
  embedding:
-   pretrained_weights: output_default4channel_10khpa_11-12/checkpoint.pth
-   output_path: output_default4channel_10khpa_11-12/DINO_features_for_HPA_FOV.pth
+   pretrained_weights: output_11_22_single_loader_4x1d/checkpoint.pth
+   output_path: output_11_22_single_loader_4x1d/DINO_features_for_HPA_FOV.pth
    df_path: 10k_hpa_download_annotated.csv
-   image_size: 224
+   image_size: 224 
    num_workers: 1
    embedding_has_labels: True
    target_labels: [nucleoplasm,nuclear membrane,nucleoli,nucleoli fibrillar center,nuclear speckles,nuclear bodies,endoplasmic reticulum,golgi apparatus,peroxisomes,endosomes,lysosomes,intermediate filaments,actin filaments,focal adhesion sites,microtubules,microtubule ends,cytokinetic bridge,mitotic spindle,microtubule organizing center,centrosome,lipid droplets,plasma membrane,cell junctions,mitochondria,aggresome,cytosol,cytoplasmic bodies,rods & rings]
@@ -48,7 +48,7 @@
    train_feature_extractor: False
    epochs: 100
    num_workers: 10
-   batch_size_per_gpu: 2
+   batch_size_per_gpu: 512
    dropout: 0.5
    lr: 0.0001
    min_lr: 1e-6
@@ -72,21 +72,22 @@
    output_dir: results/
    output_prefix: classification_output/
 
+
  flip_and_color_jitter_transforms: 
    RandomRotation: 
     - False
     - {degrees: 90, expand: False}
    RandomHorizontalFlip: 
-    - True
+    - False
     - {p: 0.5}
    RandomVerticalFlip:
-    - True
+    - False
     - {p: 0.5}
    Change_brightness: 
-    - True
+    - False
     - {p: 0.5}
    Change_contrast:
-    - True
+    - False
     - {p: 0.5}
    GaussianBlur: 
     - False
@@ -111,7 +112,7 @@
     - False
     - {c: 3}
    ToTensor: 
-    - True
+    - Truer
     - # no params
    Normalize: 
     - False
@@ -119,11 +120,10 @@
    self_normalize: 
     - True
     - # no params
-
  # --- Global crops 1 ---: 
  global_transfo1:
    Warp_cell:
-    - True
+    - False
     - # no params
    Single_cell_centered:
     - False
@@ -143,13 +143,18 @@
    remove_channel:
     - False
     - {p: 0.2}
+   rescale_protein:
+    - False
+    - {p: 0.2}
    RandomResizedCrop:
-    - True
+    - False
     - {size: 224, scale: [0.4, 1]}
+   Threshold_protein: 
+    - False
+    - {p: 0.8, interpolation: Image.BICUBIC}
    RandomResizedCenterCrop:
     - False
     - {size: 224, scale: [0.5, 1], depth: 1e6, s: 0.7}
-
  global_aug1:
    GaussianBlur:
     - False
@@ -163,7 +168,6 @@
    rnd_dihedral:
     - False
     - # no params
-
  testing_transfo:
    Single_cell_centered:
     - False
@@ -172,8 +176,8 @@
     - False
     - # no params
    FA_resize:
-    - False
-    - {size: 512}
+    - True
+    - {size: 224}
    Single_cell_Resize:
     - False
     - # no params
@@ -201,8 +205,7 @@
    self_normalize: 
     - True
     - # no params
-
- #  --- Global crops 2 ---: 
+ # --- Global crops 2 ---: 
  global_transfo2:
    Warp_cell:
     - False
@@ -223,15 +226,20 @@
     - False
     - # no params
    remove_channel:
-    - True
+    - False
+    - {p: 0.2}
+   rescale_protein:
+    - False
     - {p: 0.2}
    RandomResizedCrop:
-    - True
+    - False
     - {size: 224, scale: [0.4, 1]}
+   Threshold_protein: 
+    - False
+    - {p: 0.8, interpolation: Image.BICUBIC}
    RandomResizedCenterCrop:
     - False
     - {size: 224, scale: [0.4, 1], depth: 1e6, s: 0.7}
-
  global_aug2:
    GaussianBlur:
     - False
@@ -245,8 +253,6 @@
    rnd_dihedral:
     - False
     - # no params
-
-
  # --- Local crops ---: 
  local_crops_number: 8 
  local_transfo:
@@ -269,15 +275,20 @@
     - False
     - # no params
    remove_channel:
-    - True
+    - False
+    - {p: 0.2}
+   rescale_protein:
+    - False
     - {p: 0.2}
    RandomResizedCrop:
-    - True
+    - False
     - {size: 96, scale: [0.05, 0.4]}
+   Threshold_protein: 
+    - False
+    - {p: 0.8, interpolation: Image.BICUBIC}
    RandomResizedCenterCrop:
     - False
     - {size: 96, scale: [0.2, 0.5], depth: 1e6, s: 0.7}
-
  local_aug:
    GaussianBlur:
     - False
@@ -285,3 +296,4 @@
    rnd_dihedral:
     - False
     - # no params
+
