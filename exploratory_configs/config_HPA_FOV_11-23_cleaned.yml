@@ -74,19 +74,19 @@
 
  flip_and_color_jitter_transforms:
    RandomRotation:
-    - False
+    - True
     - {degrees: 90, expand: False}
    RandomHorizontalFlip:
-    - False
+    - True
     - {p: 0.5}
    RandomVerticalFlip:
-    - False
+    - True
     - {p: 0.5}
    Change_brightness:
-    - False
+    - True
     - {p: 0.5}
    Change_contrast:
-    - False
+    - True
     - {p: 0.5}
    GaussianBlur:
     - False
@@ -123,7 +123,7 @@
  # --- Global crops 1 ---:
  global_transfo1:
    Warp_cell:
-    - False
+    - True
     - # no params
    Single_cell_centered:
     - False
@@ -223,7 +223,7 @@
     - False
     - # no params
    remove_channel:
-    - False
+    - True
     - {p: 0.2}
    RandomResizedCrop:
     - True
@@ -269,7 +269,7 @@
     - False
     - # no params
    remove_channel:
-    - False
+    - True
     - {p: 0.2}
    RandomResizedCrop:
     - True
