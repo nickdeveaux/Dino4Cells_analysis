@@ -401,7 +401,7 @@ def train_dino(args, config):
         embed_dim = student.embed_dim
     # otherwise, we check if the architecture is in torchvision models
     elif args.arch in torchvision_models.__dict__.keys():
-        student = torchvision_models._ _dict__[args.arch]()
+        student = torchvision_models.__dict__[args.arch]()
         teacher = torchvision_models.__dict__[args.arch]()
         embed_dim = student.fc.weight.shape[1]
     elif args.arch in cell_models.__dict__.keys():
