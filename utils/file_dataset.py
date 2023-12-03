@@ -22,8 +22,9 @@ def tensor_loader(path, training=True):
 
 def default_loader(path, training=True):
     start = time.time()
-    return t(io.imread(path))
-    print(f'loaded image time: {time.time() - start}')
+    img = t(io.imread(path))
+    print(f'loaded from disk image time: {time.time() - start}')
+    return img
 
 
 def one_channel_loader(path, training=True):
@@ -260,8 +261,8 @@ class ImageFileList(data.Dataset):
             else:
                 impath, ID = self.imlist[sample_idx]
         img = self.loader(self.root + impath, self.training)
-        loaded_get_time = time.time() - start_get_item
-        print(f'loaded image time: {loaded_get_time}')
+        loaded_get_time = time.time() 
+        print(f'loaded image time: {loaded_get_time - start_get_item}')
 
         # Transform the image
         if self.transform is not None:
