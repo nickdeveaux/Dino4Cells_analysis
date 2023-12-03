@@ -375,7 +375,7 @@ def train_dino(args, config):
         dataset,
         sampler=sampler,
         batch_size=args.batch_size_per_gpu,
-        collate_fn = custom_collate,
+#        collate_fn = custom_collate,
         num_workers=args.num_workers,
         pin_memory=True,
         drop_last=True,
@@ -401,7 +401,7 @@ def train_dino(args, config):
         embed_dim = student.embed_dim
     # otherwise, we check if the architecture is in torchvision models
     elif args.arch in torchvision_models.__dict__.keys():
-        student = torchvision_models.__dict__[args.arch]()
+        student = torchvision_models._ _dict__[args.arch]()
         teacher = torchvision_models.__dict__[args.arch]()
         embed_dim = student.fc.weight.shape[1]
     elif args.arch in cell_models.__dict__.keys():
@@ -579,6 +579,7 @@ def train_one_epoch(
     metric_logger = utils.MetricLogger(delimiter="  ")
     header = "Epoch: [{}/{}]".format(epoch, args.epochs)
     for it, (images, _) in enumerate(metric_logger.log_every(data_loader, 10, header)):
+        start_time = time.time()  # Start time of the loop
         # update weight decay and learning rate according to their schedule
         it = len(data_loader) * epoch + it  # global training iteration
         for i, param_group in enumerate(optimizer.param_groups):
@@ -589,6 +590,7 @@ def train_one_epoch(
         # move images to gpu
         images = [im.cuda(non_blocking=True) for im in  images]
         # teacher and student forward passes + compute dino loss
+        forward_start_time = time.time()
         with torch.cuda.amp.autocast(fp16_scaler is not None):
             teacher_output = teacher(
                 images[:2]
@@ -636,6 +638,11 @@ def train_one_epoch(
 
         if utils.get_rank() == 0 and os.environ["SIGNAL_RECEIVED"] == "True":
             trigger_job_requeue()
+        loop_time = time.time() - start_time
+        forward_time = time.time() -  forward_start_time
+        get_images_time = forward_start_time - start_time
+        print(f"Loop {it} took {loop_time:.2f}s - Forward & Update: {forward_time:.2f}s, Get_images: {get_images_time:.2f}s")
+
 
     # gather the stats from all processes
     metric_logger.synchronize_between_processes()
