@@ -10,6 +10,7 @@ from pathlib import Path
 from functools import partial
 from sklearn.preprocessing import StandardScaler
 from utils import cellpainting_dataset
+import time
 
 
 t = torchvision.transforms.ToTensor()
@@ -20,7 +21,9 @@ def tensor_loader(path, training=True):
 
 
 def default_loader(path, training=True):
+    start = time.time()
     return t(io.imread(path))
+    print(f'loaded image time: {time.time() - start}')
 
 
 def one_channel_loader(path, training=True):
@@ -236,6 +239,7 @@ class ImageFileList(data.Dataset):
         self.N = N * len(self.unique)
 
     def __getitem__(self, index):
+        start_get_item = time.time()
         # Mapping index to a virtual table of classes
         if self.balance:
             class_id = self.unique[index % len(self.unique)]
@@ -256,6 +260,8 @@ class ImageFileList(data.Dataset):
             else:
                 impath, ID = self.imlist[sample_idx]
         img = self.loader(self.root + impath, self.training)
+        loaded_get_time = time.time() - start_get_item
+        print(f'loaded image time: {loaded_get_time}')
 
         # Transform the image
         if self.transform is not None:
@@ -263,7 +269,8 @@ class ImageFileList(data.Dataset):
                 img = [self.transform(i) for i in img]
             else:
                 img = self.transform(img)
-
+        transformed_get_time = time.time() - loaded_get_time
+        print(f'transformed image time: {transformed_get_time}')
         if not self.training:
             # Print the shape and dtype of each numpy array to get an estimate of memory usage
             img_memory = img.element_size() * img.nelement()
