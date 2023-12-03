@@ -3,7 +3,7 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: ~/filtered_512_external_hpa_fov_cleaned.csv
+   data_path: ~/ssd_512_hpa_fov_cleaned.csv
    output_dir: output/
    datatype: HPA
    image_mode: normalized_4_channels
@@ -77,16 +77,16 @@
     - False
     - {degrees: 90, expand: False}
    RandomHorizontalFlip:
-    - True
+    - False
     - {p: 0.5}
    RandomVerticalFlip:
-    - True
+    - False
     - {p: 0.5}
    Change_brightness:
-    - True
+    - False
     - {p: 0.5}
    Change_contrast:
-    - True
+    - False
     - {p: 0.5}
    GaussianBlur:
     - False
@@ -123,7 +123,7 @@
  # --- Global crops 1 ---:
  global_transfo1:
    Warp_cell:
-    - True
+    - False
     - # no params
    Single_cell_centered:
     - False
@@ -223,7 +223,7 @@
     - False
     - # no params
    remove_channel:
-    - True
+    - False
     - {p: 0.2}
    RandomResizedCrop:
     - True
@@ -269,7 +269,7 @@
     - False
     - # no params
    remove_channel:
-    - True
+    - False
     - {p: 0.2}
    RandomResizedCrop:
     - True
