@@ -578,6 +578,7 @@ def train_one_epoch(
 ):
     metric_logger = utils.MetricLogger(delimiter="  ")
     header = "Epoch: [{}/{}]".format(epoch, args.epochs)
+    last_time = time.time()
     for it, (images, _) in enumerate(metric_logger.log_every(data_loader, 10, header)):
         start_time = time.time()  # Start time of the loop
         # update weight decay and learning rate according to their schedule
@@ -639,11 +640,14 @@ def train_one_epoch(
 
         if utils.get_rank() == 0 and os.environ["SIGNAL_RECEIVED"] == "True":
             trigger_job_requeue()
+        last_time = time.time()
         loop_time = time.time() - start_time
+        outside_of_loop_time = forward_start_time - last_time
         forward_time = forward_end_time - forward_start_time
         student_update_time = teacher_update_start_time - forward_end_time
         teacher_update_time = time.time() - teacher_update_start_time
         get_images_time = forward_start_time - start_time
+        print(f"Outside of Loop {it} took {outside_of_loop_time:.2f}s")
         print(f"Loop {it} took {loop_time:.2f}s - Forward: {forward_time:.2f}s, Get_images: {get_images_time:.2f}s")
         print(f"Student update: {student_update_time:.2f}s, Teacher update: {teacher_update_time:.2f}s")
 
