@@ -119,7 +119,6 @@
    self_normalize:
     - True
     - # no params
- t
 
  # --- Global crops 1 ---:
  global_transfo1:
