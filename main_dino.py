@@ -588,7 +588,7 @@ def train_one_epoch(
                 param_group["weight_decay"] = wd_schedule[it]
 
         # move images to gpu
-        images = [im.cuda(non_blocking=True) for im in  images]
+        images = [im.cuda(non_blocking=True) for im in images]
         # teacher and student forward passes + compute dino loss
         forward_start_time = time.time()
         with torch.cuda.amp.autocast(fp16_scaler is not None):
@@ -602,6 +602,7 @@ def train_one_epoch(
             print("Loss is {}, stopping training".format(loss.item()), force=True)
             sys.exit(1)
 
+        forward_end_time = time.time()
         # student update
         optimizer.zero_grad()
         param_norms = None
@@ -621,7 +622,7 @@ def train_one_epoch(
             utils.cancel_gradients_last_layer(epoch, student, args.freeze_last_layer)
             fp16_scaler.step(optimizer)
             fp16_scaler.update()
-
+        teacher_update_start_time   = time.time()
         # EMA update for the teacher
         with torch.no_grad():
             m = momentum_schedule[it]  # momentum parameter
@@ -639,10 +640,12 @@ def train_one_epoch(
         if utils.get_rank() == 0 and os.environ["SIGNAL_RECEIVED"] == "True":
             trigger_job_requeue()
         loop_time = time.time() - start_time
-        forward_time = time.time() -  forward_start_time
+        forward_time = forward_end_time - forward_start_time
+        student_update_time = teacher_update_start_time - forward_end_time
+        teacher_update_time = time.time() - teacher_update_start_time
         get_images_time = forward_start_time - start_time
-        print(f"Loop {it} took {loop_time:.2f}s - Forward & Update: {forward_time:.2f}s, Get_images: {get_images_time:.2f}s")
-
+        print(f"Loop {it} took {loop_time:.2f}s - Forward: {forward_time:.2f}s, Get_images: {get_images_time:.2f}s")
+        print(f"Student update: {student_update_time:.2f}s, Teacher update: {teacher_update_time:.2f}s")
 
     # gather the stats from all processes
     metric_logger.synchronize_between_processes()
