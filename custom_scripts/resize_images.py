@@ -2,7 +2,7 @@ import os
 from skimage import io, transform
 import numpy as np
 
-def resize_and_convert_images(directory):
+def resize_images(directory, convert=False):
     for filename in os.listdir(directory):
         if ']x[' in filename and filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
             # Construct the full file path
@@ -20,7 +20,9 @@ def resize_and_convert_images(directory):
                     img_resized = (img_resized * 255).astype(np.uint8)
 
                 # Construct new filename (replace original extension with .tiff)
-                new_name = filename.split('.')[0] + ".tiff"
+                # Remove single quotes, '_[0]x[1]', and file extension from the original filename
+                new_name = filename.replace("'", "").split('_[0]x[1]')[0]
+                new_name = new_name + ".tiff" if convert else new_name + ".png"
 
                 # Save the resized image in TIFF format using skimage
                 io.imsave(os.path.join(directory, new_name), img_resized)
@@ -32,4 +34,4 @@ def resize_and_convert_images(directory):
 
 
 directory = "/home/nick/custom_scripts/path/to/output_dir"
-resize_and_convert_images(directory)
+resize_images(directory)
