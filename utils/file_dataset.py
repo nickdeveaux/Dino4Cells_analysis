@@ -22,7 +22,7 @@ def tensor_loader(path, training=True):
 
 def default_loader(path, training=True):
     start = time.time()
-    img = t(io.imread(path))
+    img = io.imread(path)
     print(f'loaded from disk image time: {time.time() - start}')
     return img
 
