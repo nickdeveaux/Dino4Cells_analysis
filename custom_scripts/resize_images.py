@@ -32,4 +32,4 @@ def resize_and_convert_images(directory):
 
 
 directory = "/home/nick/custom_scripts/path/to/output_dir"
-resize_images(directory)
+resize_and_convert_images(directory)
