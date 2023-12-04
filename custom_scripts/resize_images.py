@@ -8,6 +8,17 @@ def resize_images(directory, convert=False):
             # Construct the full file path
             file_path = os.path.join(directory, filename)
 
+            # Construct new filename (replace original extension with .tiff)
+            # Remove single quotes, '_[0]x[1]', and file extension from the original filename
+            new_name = filename.replace("'", "").split('_[0]x[1]')[0]
+            new_name = new_name + ".tiff" if convert else new_name + ".png"
+            new_file_path = os.path.join(directory, new_name)
+
+            # Check if new_name already exists
+            if os.path.exists(new_file_path):
+                print(f"File already exists: {new_name}, skipping...")
+                continue
+
             try:
                 # Read the image using skimage
                 img = io.imread(file_path)
@@ -19,12 +30,7 @@ def resize_images(directory, convert=False):
                 if img_resized.max() <= 1.0:
                     img_resized = (img_resized * 255).astype(np.uint8)
 
-                # Construct new filename (replace original extension with .tiff)
-                # Remove single quotes, '_[0]x[1]', and file extension from the original filename
-                new_name = filename.replace("'", "").split('_[0]x[1]')[0]
-                new_name = new_name + ".tiff" if convert else new_name + ".png"
-
-                # Save the resized image in TIFF format using skimage
+                # Save the resized image in TIFF or PNG format using skimage
                 io.imsave(os.path.join(directory, new_name), img_resized)
 
             except Exception as e:
