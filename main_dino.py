@@ -562,6 +562,13 @@ def train_dino(args, config):
     print("Training time {}".format(total_time_str))
 
 
+def save_tensors(tensors, it, path='/home/nick/tensor_cache'):
+    for i, tensor in enumerate(tensors):
+        filename = f'{it}_{i}.png'
+        filepath = os.path.join(path, filename)
+        tensor.save(filepath)
+
+
 def train_one_epoch(
     student,
     teacher,
@@ -587,7 +594,7 @@ def train_one_epoch(
             param_group["lr"] = lr_schedule[it]
             if i == 0:  # only the first group is regularized
                 param_group["weight_decay"] = wd_schedule[it]
-
+        save_tensors(images, it)
         # move images to gpu
         images = [im.cuda(non_blocking=True) for im in images]
         # teacher and student forward passes + compute dino loss
