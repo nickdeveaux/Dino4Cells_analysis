@@ -3,12 +3,12 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: ~/1d.csv
+   data_path: exploratory_configs/1d.csv
    output_dir: output_1d
    datatype: HPA
    image_mode: normalized_4_channels
    saveckp_freq: 50
-   batch_size_per_gpu: 64
+   batch_size_per_gpu: 4
    num_channels: 1
    patch_size: 16
    epochs: 10
@@ -21,7 +21,7 @@
  embedding:
    pretrained_weights: output_1d/checkpoint.pth
    output_path: output_1d/DINO_features_for_HPA_FOV.pth
-   df_path: ~/1d.csv
+   df_path: exploratory_configs/1d.csv
    image_size: 224
    num_workers: 4
    embedding_has_labels: True
