@@ -3,7 +3,7 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: ~/ssd_512_hpa_fov_cleaned.csv
+   data_path: exploratory_configs/external_hpa_fov_cleaned.csv
    output_dir: output/
    datatype: HPA
    image_mode: normalized_4_channels

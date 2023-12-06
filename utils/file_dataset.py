@@ -23,14 +23,13 @@ def tensor_loader(path, training=True):
 def default_loader(path, training=True):
     start = time.time()
     img = io.imread(path)
-    print(f'loaded from disk image time: {time.time() - start}')
+    #print(f'loaded from disk image time: {time.time() - start}')
     return img
 
 
 def one_channel_loader(path, training=True):
     img = io.imread(path)
     if training:
-        ch = np.random.randint(0, 4)
         return [t(img[:, :, i]) for i in range(img.shape[-1])]
 
 
@@ -262,7 +261,7 @@ class ImageFileList(data.Dataset):
                 impath, ID = self.imlist[sample_idx]
         img = self.loader(self.root + impath, self.training)
         loaded_get_time = time.time() 
-        print(f'loaded image time: {loaded_get_time - start_get_item}')
+        #print(f'loaded image time: {loaded_get_time - start_get_item}')
 
         # Transform the image
         if self.transform is not None:
@@ -271,7 +270,7 @@ class ImageFileList(data.Dataset):
             else:
                 img = self.transform(img)
         transformed_get_time = time.time() - loaded_get_time
-        print(f'transformed image time: {transformed_get_time}')
+        #print(f'transformed image time: {transformed_get_time}')
         if not self.training:
             # Print the shape and dtype of each numpy array to get an estimate of memory usage
             img_memory = img.element_size() * img.nelement()
