@@ -564,9 +564,9 @@ def train_dino(args, config):
 
 def save_tensors(tensors, it, path='/home/nick/tensor_cache'):
     for i, tensor in enumerate(tensors):
-        filename = f'{it}_{i}.png'
+        filename = f'{it}_{i}.pt'
         filepath = os.path.join(path, filename)
-        tensor.save(filepath)
+        torch.save(tensor, filepath)
 
 
 def train_one_epoch(
