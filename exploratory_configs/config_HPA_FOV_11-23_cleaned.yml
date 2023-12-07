@@ -11,7 +11,7 @@
    batch_size_per_gpu: 64
    num_channels: 4
    patch_size: 16
-   epochs: 10
+   epochs: 20
    momentum_teacher: 0.996
    center_momentum: 0.9
    sample_single_cells: False
