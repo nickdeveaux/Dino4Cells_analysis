@@ -39,7 +39,7 @@
    test_path: results/HPA_FOV_classification//test_features.pth
    whole_image_submission_file: results/HPA_FOV_classification//submission.csv
    competition_type: whole_images
-   use_pretrained_features: True
+   use_pretrained_features: False
    train_classifier_head: True
    whole_images: True
    feature_extractor_state_dict: null
