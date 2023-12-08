@@ -655,14 +655,6 @@ if __name__ == "__main__":
     args, unknown = parser.parse_known_args()
     print(args)
     print(unknown)
-    if "--local_rank" in unknown[0]:
-        keys = unknown[1::2]
-        values = unknown[2::2]
-    else:
-        keys = unknown[0::2]
-        values = unknown[1::2]
-    for k, v in zip(keys, values):
-        setattr(args, k.replace("--", ""), v)
     run_end_to_end(
         args.config,
         loader=default_loader,
