@@ -57,8 +57,8 @@ if args.cells:
     train_IDs = torch.load("HPA_FOV_data/cells_train_IDs.pth")
     valid_IDs = torch.load("HPA_FOV_data/cells_valid_IDs.pth")
 else:
-    train_IDs = torch.load("HPA_FOV_data/train_IDs.pth")
-    valid_IDs = torch.load("HPA_FOV_data/valid_IDs.pth")
+    train_IDs = torch.load("results/HPA_FOV_classification/unique_filtered_train_IDs.pth")
+    valid_IDs = torch.load("results/HPA_FOV_classification/unique_filtered_valid_IDs.pth")
 
 averaged_features = all_features
 IDs = np.array(all_IDs)
