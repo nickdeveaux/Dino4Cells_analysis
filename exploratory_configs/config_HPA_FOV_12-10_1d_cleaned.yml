@@ -3,13 +3,13 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: exploratory_configs/filtered_updated_whole_images.csv
-   output_dir: output/
+   data_path: exploratory_configs/1d_hpa_fov.csv
+   output_dir: output_12-10_1d/
    datatype: HPA
-   image_mode: normalized_4_channels
+   image_mode: normalized_4_channels #default_loader
    saveckp_freq: 50
    batch_size_per_gpu: 64
-   num_channels: 4
+   num_channels: 1
    patch_size: 16
    epochs: 50
    momentum_teacher: 0.996
@@ -19,9 +19,9 @@
    local_crops_scale: '0.2 0.5'
 
  embedding:
-   pretrained_weights: output/checkpoint.pth
-   output_path: /home/nick/data/HPA_FOV_data/DINO_features_for_HPA_FOV.pth
-   df_path: exploratory_configs/filtered_updated_whole_images.csv
+   pretrained_weights: output_12-10_1d/checkpoint.pth
+   output_path: output_12-10_1d/DINO_features_for_HPA_FOV.pth
+   df_path: exploratory_configs/1d_hpa_fov.csv
    image_size: 224
    num_workers: 4
    embedding_has_labels: True
@@ -39,7 +39,7 @@
    test_path: results/HPA_FOV_classification//test_features.pth
    whole_image_submission_file: results/HPA_FOV_classification//submission.csv
    competition_type: whole_images
-   use_pretrained_features: False
+   use_pretrained_features: True
    train_classifier_head: True
    whole_images: True
    feature_extractor_state_dict: null
