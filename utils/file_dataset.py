@@ -217,6 +217,7 @@ class ImageFileList(data.Dataset):
         self.sample_single_cells = sample_single_cells
 
     def parse_labels(self):
+        import pdb; pdb.set_trace() 
         if type(self.target_labels) is not type(None):
             self.unique = self.target_labels
         else:
@@ -337,6 +338,7 @@ class AutoBalancedPrecomputedFeatures(data.Dataset):
             self.features = torch.Tensor(self.scaler.transform(self.features.numpy()))
 
     def parse_labels(self):
+        import pdb; pdb.set_trace()
         stats = pd.DataFrame(
             data=[
                 {"class": u, "freq": self.target[:, u].sum().item()}
@@ -391,6 +393,7 @@ class AutoBalancedFileList(ImageFileList):
         self.idx = []
 
     def parse_labels(self):
+        import pdb; pdb.set_trace() 
         if type(self.target_labels) is not type(None):
             self.unique = self.target_labels
         else:

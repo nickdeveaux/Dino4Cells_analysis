@@ -200,7 +200,7 @@ def run_end_to_end(
 
     if args.use_pretrained_features == False:
         feature_extractor.to(device)
-        dataset_function = ImageFileList
+        dataset_function = AutoBalancedFileList
     else:
         feature_extractor = None
         if args.train_protein:
@@ -219,6 +219,7 @@ def run_end_to_end(
             args.train_path = args.cells_train_path
             args.valid_path = args.cells_valid_path
     # setup classifier head
+    import pdb; pdb.set_trace()
     if args.use_pretrained_features == False:
         embed_dim = feature_extractor.embed_dim
     else:
@@ -269,7 +270,7 @@ def run_end_to_end(
         transform=train_transform,
         flist_reader=reader,
         # balance=False,
-        balance=args.balance,
+        # balance=args.balance,
         loader=loader,
         training=True,
         with_labels=True,
@@ -281,7 +282,7 @@ def run_end_to_end(
     valid_ds = dataset_function(
         args.valid_path,
         transform=test_transform,
-        balance=False,
+        # balance=False,
         # balance=args.balance,
         flist_reader=reader,
         loader=loader,
@@ -292,9 +293,9 @@ def run_end_to_end(
         # used to create the multilabel target matrix
         target_labels=target_labels,
     )
-    train_ds.scale_features("find_statistics")
-    valid_ds.scale_features(train_ds.scaler)
-    torch.save(train_ds.scaler, f"{args.output_dir}/{args.output_prefix}/scaler.pth")
+    #train_ds.scale_features("find_statistics")
+    #valid_ds.scale_features(train_ds.scaler)
+    #torch.save(train_ds.scaler, f"{args.output_dir}/{args.output_prefix}/scaler.pth")
 
     # The balancing action is done online via the AutoBalancedFileList class,
     # so no weigting is needed in the sampler
@@ -481,6 +482,7 @@ def run_training(
             outputs = classifier(features)
             targets = targets.float().reshape(targets.shape[0], 1, targets.shape[-1])
             outputs = outputs.float().reshape(outputs.shape[0], 1, outputs.shape[-1])
+            import pdb; pdb.set_trace() 
             loss = criterion(
                 outputs, targets
             )
