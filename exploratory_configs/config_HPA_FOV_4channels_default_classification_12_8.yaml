@@ -46,7 +46,7 @@
    classifier_state_dict: results/HPA_FOV_classification//classifier_final_protein.pth
    load_classifier_head: False
    train_feature_extractor: False
-   epochs: 100
+   epochs: 3 
    num_workers: 10
    batch_size_per_gpu: 512
    dropout: 0.5
