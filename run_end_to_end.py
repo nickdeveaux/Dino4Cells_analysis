@@ -482,7 +482,6 @@ def run_training(
             outputs = classifier(features)
             targets = targets.float().reshape(targets.shape[0], 1, targets.shape[-1])
             outputs = outputs.float().reshape(outputs.shape[0], 1, outputs.shape[-1])
-            import pdb; pdb.set_trace() 
             loss = criterion(
                 outputs, targets
             )
