@@ -229,7 +229,7 @@ if __name__ == "__main__":
         if all_features == None:
             all_features = torch.zeros(len(dataset), features.shape[1])
         all_features[running_index : running_index + len(features), :] = features.detach().cpu()
-        all_ids[running_index : running_index + len(features), :] = ids
+        all_ids.extend(ids)
         running_index += len(features)
         del images, record, features
 
