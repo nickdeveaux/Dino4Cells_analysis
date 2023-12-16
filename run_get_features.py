@@ -201,6 +201,7 @@ if __name__ == "__main__":
     labels = None
     all_features = None
     running_index = 0
+    all_ids = []
 
     # Main feature extraction loop
     for record in tqdm(data_loader):
@@ -210,6 +211,7 @@ if __name__ == "__main__":
         for ind, label in enumerate(record[1:]):
             labels[ind].extend(record[1 + ind])
         images = record[0]
+        ids = record[-1]
         # Run model
         if isinstance(images, list):
             # Compatibility for crops and multi-views
@@ -227,11 +229,12 @@ if __name__ == "__main__":
         if all_features == None:
             all_features = torch.zeros(len(dataset), features.shape[1])
         all_features[running_index : running_index + len(features), :] = features.detach().cpu()
+        all_ids[running_index : running_index + len(features), :] = ids
         running_index += len(features)
         del images, record, features
 
     # Save results
-    result = [all_features]
+    result = [all_features, all_ids]
     for l in labels:
         result.append(l)
     torch.save(result, output_path)
