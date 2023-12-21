@@ -3,8 +3,8 @@
    model_type: DINO
    arch: vit_tiny
    root: /
-   data_path: exploratory_configs/short_filtered_updated_whole_images.csv
-   output_dir: output_12_9_50epochs_4channel_default
+   data_path: /home/nick/data/HPA_FOV_data/whole_images.csv
+   output_dir: output_12_21_zenodo_sanity_check
    datatype: HPA
    image_mode: normalized_4_channels
    saveckp_freq: 50
@@ -19,33 +19,31 @@
    local_crops_scale: '0.2 0.5'
 
  embedding:
-   pretrained_weights: output_12_9_50epochs_4channel_default/checkpoint.pth
-   output_path: /home/nick/data/HPA_FOV_data/4channel_12_16_short_DINO_features_for_HPA_FOV.pth
-   df_path: exploratory_configs/short_filtered_updated_whole_images.csv
+   pretrained_weights: /home/nick/data/HPA_FOV_data/DINO_FOV_checkpoint.pth
+   output_path: output_12_21_zenodo_sanity_check
+   df_path: /home/nick/data/HPA_FOV_data/whole_images.csv
    image_size: 224
    num_workers:  1
    embedding_has_labels: True
    target_labels: [nucleoplasm,nuclear membrane,nucleoli,nucleoli fibrillar center,nuclear speckles,nuclear bodies,endoplasmic reticulum,golgi apparatus,peroxisomes,endosomes,lysosomes,intermediate filaments,actin filaments,focal adhesion sites,microtubules,microtubule ends,cytokinetic bridge,mitotic spindle,microtubule organizing center,centrosome,lipid droplets,plasma membrane,cell junctions,mitochondria,aggresome,cytosol,cytoplasmic bodies,rods & rings]
 
-/data/HPA_FOV_data/DINO_features_for_HPA_FOV.pth
-
  classification:
-   averaged_features_path: results/HPA_FOV_classification//averaged_features.pth
-   averaged_train_path: results/HPA_FOV_classification//train_features.pth
-   averaged_valid_path: results/HPA_FOV_classification//valid_features.pth
-   averaged_test_path: /home/nick/data/HPA_FOV_data/4channel_12_16_short_DINO_features_for_HPA_FOV.pth 
-   cells_train_path: results/HPA_FOV_classification//train_features_cells.pth
-   cells_valid_path: results/HPA_FOV_classification//valid_features_cells.pth
-   train_path: results/HPA_FOV_classification//train.csv
-   valid_path: results/HPA_FOV_classification//valid.csv
-   test_path: /home/nick/data/HPA_FOV_data/4channel_12_16_short_DINO_features_for_HPA_FOV.pth 
-   whole_image_submission_file: results/HPA_FOV_classification//submission.csv
+   averaged_features_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//averaged_features.pth
+   averaged_train_path: /home/nick/data/HPA_FOV_data/DINO_features_for_HPA_FOV.pth
+   averaged_valid_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//valid_features.pth
+   averaged_test_path: results_12_21_zenodo_sanity_check/nick/data/HPA_FOV_data/4channel_12_21.pth 
+   cells_train_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//train_features_cells.pth
+   cells_valid_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//valid_features_cells.pth
+   train_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//train.csv
+   valid_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//valid.csv
+   test_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//test.csv
+   whole_image_submission_file: HPA_FOV_classification/HPA_FOV_classification//submission.csv
    competition_type: whole_images
    use_pretrained_features: True
    train_classifier_head: True
    whole_images: True
    feature_extractor_state_dict: null
-   classifier_state_dict: results//classification_output/classifier_final_protein_whole.pth
+   classifier_state_dict: HPA_FOV_classification//classification_output/classifier_final_protein_whole.pth
    load_classifier_head: False
    train_feature_extractor: False
    epochs: 3 
