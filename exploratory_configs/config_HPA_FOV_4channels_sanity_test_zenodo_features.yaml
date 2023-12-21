@@ -30,7 +30,7 @@
  classification:
    averaged_features_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//averaged_features.pth
    averaged_train_path: /home/nick/data/HPA_FOV_data/DINO_features_for_HPA_FOV.pth
-   averaged_valid_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//valid_features.pth
+   averaged_valid_path: /home/nick/data/HPA_FOV_data/DINO_features_for_HPA_FOV.pth
    averaged_test_path: results_12_21_zenodo_sanity_check/nick/data/HPA_FOV_data/4channel_12_21.pth 
    cells_train_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//train_features_cells.pth
    cells_valid_path: results_12_21_zenodo_sanity_check/HPA_FOV_classification//valid_features_cells.pth
