@@ -304,6 +304,8 @@ class AutoBalancedPrecomputedFeatures(data.Dataset):
         self.proteins = proteins
         self.cells = cells
         if target_column == "proteins":
+            if isinstance(proteins, list):
+                proteins = np.array(proteins)
             if isinstance(proteins, np.ndarray):
                 self.target = torch.Tensor(proteins)
             elif isinstance(proteins, torch.Tensor):
