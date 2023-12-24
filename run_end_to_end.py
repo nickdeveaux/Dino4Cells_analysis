@@ -153,7 +153,7 @@ def run_end_to_end(
             log_path=f"{save_dir}/experiment_params.json",
         )
 
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    device = torch.device("cpu")
 
     # setup dataloader
     if args.use_pretrained_features:
@@ -219,7 +219,7 @@ def run_end_to_end(
             args.train_path = args.cells_train_path
             args.valid_path = args.cells_valid_path
     # setup classifier head
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     if args.use_pretrained_features == False:
         embed_dim = feature_extractor.embed_dim
     else:
@@ -270,7 +270,7 @@ def run_end_to_end(
         transform=train_transform,
         flist_reader=reader,
         # balance=False,
-        # balance=args.balance,
+        balance=args.balance,
         loader=loader,
         training=True,
         with_labels=True,
@@ -283,7 +283,7 @@ def run_end_to_end(
         args.valid_path,
         transform=test_transform,
         # balance=False,
-        # balance=args.balance,
+        balance=args.balance,
         flist_reader=reader,
         loader=loader,
         training=True,
@@ -384,7 +384,7 @@ def get_f1_score(all_targets, all_predictions):
         average=None,
         zero_division=0,
     )
-    print(full_score)
+    print(f"f1 score: {full_score}")
     return average_score
 
 
@@ -442,6 +442,8 @@ def run_training(
     print("running training...")
     writer = SummaryWriter(f"{args.output_dir}/logs/{args.output_prefix}/")
     epochs_to_run = int(args.epochs)
+    import pdb; pdb.set_trace()
+    
     epoch_pbar = tqdm(
         range(epochs_to_run),
         total=epochs_to_run,
@@ -498,7 +500,7 @@ def run_training(
                 scheduler.step()
 
             # logging
-            torch.cuda.synchronize()
+            # torch.cuda.synchronize()
             train_predictions.append(outputs)
             train_targets.append(targets)
             train_loss.append(loss.item())
