@@ -33,6 +33,38 @@ def one_channel_loader(path, training=True):
         return [t(img[:, :, i]) for i in range(img.shape[-1])]
 
 
+# Function for HPA whole image aggregation; Example usage
+# image_tensor = load_four_channel_image("/home/nick/0000a892-bacf-11e8-b2b8-ac1f6b6435d0")
+def load_four_channel_image(path):
+    """
+    Load four images corresponding to different color channels from a given directory and return a 4-channel image.
+    
+    Args:
+    - path (str): The directory containing the images with the ID as the last part of the path.
+
+    Returns:
+    - Tensor: A 4-channel image tensor.
+    """
+    channels = ['green', 'blue', 'yellow', 'red']
+    images = []
+
+    # Extract the ID from the path
+    id = os.path.basename(path)
+
+    # Load each image and append to the list
+    for channel in channels:
+        file_name = f"{id}_{channel}.png"
+        file_path = os.path.join(path, file_name)
+        img = io.imread(file_path)
+        images.append(img)
+
+    # Stack images along the channel dimension
+    stacked_image = np.stack(images, axis=-1)
+
+    # Convert to tensor
+    return t(stacked_image)
+
+
 def two_channel_loader(path, training=True):
     img = io.imread(path)
     if training:
