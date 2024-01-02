@@ -35,7 +35,7 @@ def one_channel_loader(path, training=True):
 
 # Function for HPA whole image aggregation; Example usage
 # image_tensor = load_four_channel_image("/home/nick/0000a892-bacf-11e8-b2b8-ac1f6b6435d0")
-def load_four_channel_image(path):
+def load_four_channel_image(path, training=True):
     """
     Load four images corresponding to different color channels from a given directory and return a 4-channel image.
     
