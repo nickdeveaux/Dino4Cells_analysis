@@ -518,6 +518,7 @@ image_modes = {
     "one_channel": one_channel_loader,
     "two_channels": two_channel_loader,
     "protein_channel": protein_channel_loader,
+    "load_four_channel_image": load_four_channel_image
 }
 
 readers = {True: pandas_reader_binary_labels, False: pandas_reader_no_labels}
