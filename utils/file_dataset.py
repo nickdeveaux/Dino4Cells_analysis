@@ -45,7 +45,7 @@ def load_four_channel_image(path, training=True):
     Returns:
     - Tensor: A 4-channel image tensor.
     """
-    channels = ['green', 'blue', 'yellow', 'red']
+    channels = ['red', 'green', 'blue', 'yellow']
     images = []
 
     # Load each image and append to the list
