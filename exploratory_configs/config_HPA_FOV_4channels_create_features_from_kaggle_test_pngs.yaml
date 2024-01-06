@@ -24,7 +24,7 @@
    df_path: exploratory_configs/kaggle_test_data.csv
    image_size: 224
    num_workers:  1
-   embedding_has_labels: True
+   embedding_has_labels: False
    target_labels: [nucleoplasm,nuclear membrane,nucleoli,nucleoli fibrillar center,nuclear speckles,nuclear bodies,endoplasmic reticulum,golgi apparatus,peroxisomes,endosomes,lysosomes,intermediate filaments,actin filaments,focal adhesion sites,microtubules,microtubule ends,cytokinetic bridge,mitotic spindle,microtubule organizing center,centrosome,lipid droplets,plasma membrane,cell junctions,mitochondria,aggresome,cytosol,cytoplasmic bodies,rods & rings]
 
  classification:
