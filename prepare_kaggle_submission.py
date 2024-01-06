@@ -203,7 +203,7 @@ def run(
 
         for i in sigmoid_outputs:
             rounded_i = i.round()
-            if np.all(rounded_i == 0):
+            if np.all(rounded_i.numpy() == 0):
                 # Find the index with the highest probability when the rounded vector is all zeros
                 highest_prob_index = np.argmax(i).item()
                 submissions.append(str(highest_prob_index))
