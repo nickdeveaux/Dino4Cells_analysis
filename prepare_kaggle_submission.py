@@ -178,7 +178,7 @@ def run(
     else:
         mapping_dict = protein_to_num_full
 
-    features, label_vecs, labels, IDs = torch.load(args.test_path)
+    features, IDs = torch.load(args.test_path)
     if Path(f"{args.output_dir}/{args.output_prefix}/scaler.pth").exists():
         print("scaling features")
         scaler = torch.load(f"{args.output_dir}/{args.output_prefix}/scaler.pth")
