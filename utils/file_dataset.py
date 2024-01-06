@@ -309,7 +309,7 @@ class ImageFileList(data.Dataset):
         if self.training:
             return img, ID
         elif type(self.target_labels) is not type(None):
-            return img, protein.astype(int), cell, ID
+            return img, ID
         elif self.with_labels:
             return img, protein, cell, ID
         elif self.single_cells:
