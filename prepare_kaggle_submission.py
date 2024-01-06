@@ -194,17 +194,22 @@ def run(
     for f in features:
         student_output = classifier(f.unsqueeze(0).to(device))
         predictions.append(student_output.cpu().detach().numpy())
+
+    #Modified to not have empty outputs
     if args.competition_type == "whole_images":
         predictions = np.concatenate(predictions, axis=0)
-        predictions = (
-            torch.sigmoid(torch.Tensor(predictions)).round().squeeze(1)[:, mapping]
-        )
+        sigmoid_outputs = torch.sigmoid(torch.Tensor(predictions)).squeeze(1)[:, mapping]
         submissions = []
-        for i in predictions:
-            if len(i) == 0:
-                submissions.append("")
+
+        for i in sigmoid_outputs:
+            rounded_i = i.round()
+            if np.all(rounded_i == 0):
+                # Find the index with the highest probability when the rounded vector is all zeros
+                highest_prob_index = np.argmax(i).item()
+                submissions.append(str(highest_prob_index))
             else:
-                submissions.append(" ".join([str(v) for v in np.where(i)[0]]))
+                # Use existing logic if rounded vector is not all zeros
+                submissions.append(" ".join([str(v) for v in np.where(rounded_i)[0]]))
 
         submission = pd.DataFrame(zip(IDs, submissions), columns=["Id", "Predicted"])
         submission = submission.sort_values(by="Id")
