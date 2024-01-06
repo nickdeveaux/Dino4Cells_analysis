@@ -48,14 +48,10 @@ def load_four_channel_image(path, training=True):
     channels = ['green', 'blue', 'yellow', 'red']
     images = []
 
-    # Extract the ID from the path
-    id = os.path.basename(path)
-
     # Load each image and append to the list
     for channel in channels:
-        file_name = f"{id}_{channel}.png"
-        file_path = os.path.join(path, file_name)
-        img = io.imread(file_path)
+        file_name = f"{path}_{channel}.png"
+        img = io.imread(file_name)
         images.append(img)
 
     # Stack images along the channel dimension
@@ -282,7 +278,8 @@ class ImageFileList(data.Dataset):
 
         # Identify the sample
         if type(self.target_labels) is not type(None):
-            impath, protein, cell, ID = self.imlist[sample_idx]
+            # Hack added to make features on 1/6/2024
+            impath, ID = self.imlist[sample_idx]
         elif self.with_labels:
             impath, protein, cell, ID = self.imlist[sample_idx]
         else:
