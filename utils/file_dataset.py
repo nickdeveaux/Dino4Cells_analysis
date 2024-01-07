@@ -45,7 +45,7 @@ def load_four_channel_image(path, training=True):
     Returns:
     - Tensor: A 4-channel image tensor.
     """
-    channels = ['red', 'green', 'blue', 'yellow']
+    channels = ['blue','green','red','yellow'] # channel order from download_HPA.py
     images = []
 
     # Load each image and append to the list
