@@ -20,7 +20,7 @@
 
  embedding:
    pretrained_weights: output_12_9_50epochs_4channel_default/checkpoint.pth
-   output_path: results_12_23_from_features_4channel_dino_kaggle_test.pth
+   output_path: results_12_23_from_features_4channel_dino_kaggle_test_red_first.pth
    df_path: exploratory_configs/kaggle_test_data.csv
    image_size: 224
    num_workers:  1
