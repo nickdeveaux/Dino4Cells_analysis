@@ -20,7 +20,7 @@
 
  embedding:
    pretrained_weights: output_12_9_50epochs_4channel_default/checkpoint.pth
-   output_path: results_12_23_from_features_4channel_dino_kaggle_test_red_first.pth
+   output_path: results_12_23_from_features_4channel_dino
    df_path: exploratory_configs/kaggle_test_data.csv
    image_size: 224
    num_workers:  1
@@ -31,7 +31,7 @@
    averaged_features_path: results_12_23_from_features_4channel_dino/HPA_FOV_classification//averaged_features.pth
    averaged_train_path: /home/nick/data/HPA_FOV_data/4channel_12_18_DINO_features_for_HPA_FOV.pth
    averaged_valid_path: /home/nick/data/HPA_FOV_data/4channel_12_18_DINO_features_for_HPA_FOV.pth
-   averaged_test_path: results_12_23_from_features_4channel_dino/test_4channel_12_23.pth 
+   averaged_test_path: results_12_23_from_features_4channel_dino_kaggle_test_red_first.pth
    cells_train_path: results_12_23_from_features_4channel_dino/HPA_FOV_classification//train_features_cells.pth
    cells_valid_path: results_12_23_from_features_4channel_dino/HPA_FOV_classification//valid_features_cells.pth
    train_path: results_12_23_from_features_4channel_dino/HPA_FOV_classification//train.csv
