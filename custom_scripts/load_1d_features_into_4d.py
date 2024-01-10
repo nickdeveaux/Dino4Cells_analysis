@@ -25,10 +25,9 @@ def process_data(tensors, ids):
 
 def save_new_data(new_tensors, new_ids, output_file):
     all_features = torch.stack(new_tensors)
-    result = [all_features]
-    for l in new_ids:
-        result.append(l)
+    result = [all_features, new_ids]
     torch.save(result, output_file)
+
 
 # Load the data
 file_path = 'results_01_09_from_features_1channel_dino/results_01_09_from_features_1channel_dino.pth'
