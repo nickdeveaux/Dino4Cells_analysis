@@ -371,7 +371,6 @@ class AutoBalancedPrecomputedFeatures(data.Dataset):
             self.features = torch.Tensor(self.scaler.transform(self.features.numpy()))
 
     def parse_labels(self):
-        import pdb; pdb.set_trace()
         stats = pd.DataFrame(
             data=[
                 {"class": u, "freq": self.target[:, u].sum().item()}
