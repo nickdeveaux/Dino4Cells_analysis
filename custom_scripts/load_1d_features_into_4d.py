@@ -8,7 +8,7 @@ def load_data(file_path):
 def process_data(tensors, ids):
     grouped_tensors = {}
     for tensor, id_str in zip(tensors, ids):
-        base_id = id_str.rsplit('_', 1)[0]  # Remove the channel part
+        base_id = id_str.rsplit('_channel', 1)[0]  # Remove the channel part
         if base_id not in grouped_tensors:
             grouped_tensors[base_id] = []
         grouped_tensors[base_id].append(tensor)
