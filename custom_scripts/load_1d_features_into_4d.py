@@ -1,5 +1,20 @@
 import torch
 
+
+def load_and_reorder_data(file_path, new_ids):
+    # Load the data
+    data = torch.load(file_path)
+    features, tensor_list_1, tensor_list_2, ids = data
+
+    # Create a mapping from ID to index
+    id_to_index = {id_str: i for i, id_str in enumerate(ids)}
+
+    # Reorder tensor_list_1 and tensor_list_2 according to new_ids
+    reordered_tensor_list_1 = [tensor_list_1[id_to_index[id_str]] for id_str in new_ids if id_str in id_to_index]
+    reordered_tensor_list_2 = [tensor_list_2[id_to_index[id_str]] for id_str in new_ids if id_str in id_to_index]
+
+    return reordered_tensor_list_1, reordered_tensor_list_2
+
 def load_data(file_path):
     data = torch.load(file_path)
     tensors, ids = data
@@ -23,9 +38,10 @@ def process_data(tensors, ids):
 
     return new_tensors, new_ids
 
-def save_new_data(new_tensors, new_ids, output_file):
+
+def save_new_data(new_tensors, tensor_list_1, tensor_list_2, new_ids, output_file):
     all_features = torch.stack(new_tensors)
-    result = [all_features, new_ids]
+    result = [all_features, tensor_list_1, tensor_list_2, new_ids]
     torch.save(result, output_file)
 
 
@@ -36,6 +52,9 @@ tensors, ids = load_data(file_path)
 # Process the data
 new_tensors, new_ids = process_data(tensors, ids)
 
+cell_and_protein_path = '/home/nick/data/HPA_FOV_data/4channel_12_18_DINO_features_for_HPA_FOV.pth'
+reordered_tensor_list_1, reordered_tensor_list_2 = load_and_reorder_data(cell_and_protein_path, new_ids)
+
 # Save the new data
 output_file = 'processed_data.pth'
-save_new_data(new_tensors, new_ids, output_file)
+save_new_data(new_tensors, reordered_tensor_list_1, reordered_tensor_list_2, new_ids, output_file)
