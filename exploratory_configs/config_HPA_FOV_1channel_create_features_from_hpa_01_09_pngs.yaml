@@ -20,8 +20,12 @@
 
  embedding:
    pretrained_weights: output_12-10_1d/checkpoint.pth
-   output_path: results_01_09_from_features_1channel_dino
-   df_path: exploratory_configs/filtered_updated_whole_images.csv # 1d_hpa_fov.csv for generating features
+   output_path: results_01_09_from_features_1channel_dino_kaggle_test_data.pth
+   # Or results_01_09_from_features_1channel_dino
+   df_path: exploratory_configs/kaggle_1channel_test_data.csv
+   # kaggle_1channel_test_data.csv for generating features from kaggle test data
+   # exploratory_configs/filtered_updated_whole_images.csv for training classifier
+   # 1d_hpa_fov.csv for generating features from hpa training 1d data
    image_size: 224
    num_workers:  1
    embedding_has_labels: False # setting to false so that it can load id, file.
