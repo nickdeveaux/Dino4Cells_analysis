@@ -6,7 +6,7 @@
    data_path: exploratory_configs/1d_hpa_fov.csv
    output_dir: results_01_09_from_features_1channel_dino
    datatype: HPA
-   image_mode: one_channel
+   image_mode: normalized_4_channels # set to this to use the default_loader
    saveckp_freq: 50
    batch_size_per_gpu: 64
    num_channels: 1
@@ -21,7 +21,7 @@
  embedding:
    pretrained_weights: output_12-10_1d/checkpoint.pth
    output_path: results_01_09_from_features_1channel_dino
-   df_path: exploratory_configs/1d_hpa_fov.csv
+   df_path: exploratory_configs/filtered_updated_whole_images.csv # 1d_hpa_fov.csv for generating features
    image_size: 224
    num_workers:  1
    embedding_has_labels: False # setting to false so that it can load id, file.
@@ -29,8 +29,8 @@
 
  classification:
    averaged_features_path: results_01_09_from_features_1channel_dino/HPA_FOV_classification//averaged_features.pth
-   averaged_train_path: results_01_09_from_features_1channel_dino/avg_train.pth
-   averaged_valid_path: results_01_09_from_features_1channel_dino/avg_valid.pth
+   averaged_train_path: results_01_09_from_features_1channel_dino/processed_data.pth
+   averaged_valid_path: results_01_09_from_features_1channel_dino/processed_data.pth
    averaged_test_path: results_01_09_from_features_1channel_dino/avg_test.pth 
    cells_train_path: results_01_09_from_features_1channel_dino/HPA_FOV_classification//train_features_cells.pth
    cells_valid_path: results_01_09_from_features_1channel_dino/HPA_FOV_classification//valid_features_cells.pth
