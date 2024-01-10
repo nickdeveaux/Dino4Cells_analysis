@@ -9,7 +9,7 @@
    image_mode: one_channel
    saveckp_freq: 50
    batch_size_per_gpu: 64
-   num_channels: 4
+   num_channels: 1
    patch_size: 16
    epochs: 50
    momentum_teacher: 0.996
