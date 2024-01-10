@@ -35,7 +35,8 @@
    averaged_features_path: results_01_09_from_features_1channel_dino/HPA_FOV_classification//averaged_features.pth
    averaged_train_path: results_01_09_from_features_1channel_dino/processed_data.pth
    averaged_valid_path: results_01_09_from_features_1channel_dino/processed_data.pth
-   averaged_test_path: results_01_09_from_features_1channel_dino/avg_test.pth 
+   # The following line was added at the end of the process, to run prepare_kaggle_submission.py
+   averaged_test_path: results_01_09_from_features_1channel_dino/processed_kaggle_test_data.pth 
    cells_train_path: results_01_09_from_features_1channel_dino/HPA_FOV_classification//train_features_cells.pth
    cells_valid_path: results_01_09_from_features_1channel_dino/HPA_FOV_classification//valid_features_cells.pth
    train_path: results_01_09_from_features_1channel_dino/HPA_FOV_classification//train.csv
