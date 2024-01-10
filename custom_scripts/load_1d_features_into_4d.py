@@ -20,6 +20,37 @@ def load_data(file_path):
     tensors, ids = data
     return tensors, ids
 
+
+def process_kaggle_color_data(tensors, ids):
+    grouped_tensors = {}
+    for tensor, id_str in zip(tensors, ids):
+        # Extract the base ID without the color channel
+        base_id = id_str.rsplit('_', 1)[0]
+
+        # Initialize a dictionary for this ID if not already present
+        if base_id not in grouped_tensors:
+            grouped_tensors[base_id] = {'blue': None, 'green': None, 'red': None, 'yellow': None}
+
+        # Determine the color channel of the current tensor
+        channel = id_str.split('_')[-1]
+
+        # Assign the tensor to the correct channel
+        if channel in grouped_tensors[base_id]:
+            grouped_tensors[base_id][channel] = tensor
+
+    new_tensors = []
+    new_ids = []
+    for base_id, channels in grouped_tensors.items():
+        # Check if all four channels are present
+        if all(channels.values()):
+            # Concatenate tensors in the order of 'blue', 'green', 'red', 'yellow'
+            concatenated_tensor = torch.cat([channels[ch] for ch in ['blue', 'green', 'red', 'yellow']], dim=0)
+            new_tensors.append(concatenated_tensor)
+            new_ids.append(base_id)
+
+    return new_tensors, new_ids
+
+
 def process_data(tensors, ids):
     grouped_tensors = {}
     for tensor, id_str in zip(tensors, ids):
@@ -42,6 +73,12 @@ def process_data(tensors, ids):
 def save_new_data(new_tensors, tensor_list_1, tensor_list_2, new_ids, output_file):
     all_features = torch.stack(new_tensors)
     result = [all_features, tensor_list_1, tensor_list_2, new_ids]
+    torch.save(result, output_file)
+
+
+def save_data_with_just_features_and_ids(new_tensors, new_ids, output_file):
+    all_features = torch.stack(new_tensors)
+    result = [all_features, new_ids]
     torch.save(result, output_file)
 
 
