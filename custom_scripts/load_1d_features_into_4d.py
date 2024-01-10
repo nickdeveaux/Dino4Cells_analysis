@@ -24,7 +24,9 @@ def process_data(tensors, ids):
     return new_tensors, new_ids
 
 def save_new_data(new_tensors, new_ids, output_file):
-    torch.save((new_tensors, new_ids), output_file)
+    all_features = torch.stack(new_tensors)
+    result = [all_features] + new_ids
+    torch.save(result, output_file)
 
 import pdb; pdb.set_trace()
 
