@@ -15,6 +15,7 @@ def load_and_reorder_data(file_path, new_ids):
 
     return reordered_tensor_list_1, reordered_tensor_list_2
 
+
 def load_data(file_path):
     data = torch.load(file_path)
     tensors, ids = data
@@ -41,8 +42,8 @@ def process_kaggle_color_data(tensors, ids):
     new_tensors = []
     new_ids = []
     for base_id, channels in grouped_tensors.items():
-        # Check if all four channels are present
-        if all(channels.values()):
+        # Check if all four channels have tensors assigned
+        if all(channels[ch] is not None for ch in ['blue', 'green', 'red', 'yellow']):
             # Concatenate tensors in the order of 'blue', 'green', 'red', 'yellow'
             concatenated_tensor = torch.cat([channels[ch] for ch in ['blue', 'green', 'red', 'yellow']], dim=0)
             new_tensors.append(concatenated_tensor)
