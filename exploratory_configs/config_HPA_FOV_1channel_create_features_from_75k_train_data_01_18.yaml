@@ -31,10 +31,10 @@
    target_labels: [nucleoplasm,nuclear membrane,nucleoli,nucleoli fibrillar center,nuclear speckles,nuclear bodies,endoplasmic reticulum,golgi apparatus,peroxisomes,endosomes,lysosomes,intermediate filaments,actin filaments,focal adhesion sites,microtubules,microtubule ends,cytokinetic bridge,mitotic spindle,microtubule organizing center,centrosome,lipid droplets,plasma membrane,cell junctions,mitochondria,aggresome,cytosol,cytoplasmic bodies,rods & rings]
 
  classification:
-   averaged_train_path: results_01_09_from_features_1channel_dino/processed_data.pth
-   averaged_valid_path: results_01_09_from_features_1channel_dino/processed_data.pth
+   averaged_train_path: results_01_09_from_features_1channel_dino/fixed_processed_data.pth
+   averaged_valid_path: results_01_09_from_features_1channel_dino/fixed_processed_data.pth
    # The following line was added at the end of the process, to run prepare_kaggle_submission.py
-   averaged_test_path: results_01_09_from_features_1channel_dino/processed_data.pth
+   averaged_test_path: 
    competition_type: whole_images
    use_pretrained_features: True
    train_classifier_head: True
