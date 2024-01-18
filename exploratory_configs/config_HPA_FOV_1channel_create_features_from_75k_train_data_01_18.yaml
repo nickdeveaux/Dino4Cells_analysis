@@ -34,13 +34,13 @@
    averaged_train_path: results_01_09_from_features_1channel_dino/processed_data.pth
    averaged_valid_path: results_01_09_from_features_1channel_dino/processed_data.pth
    # The following line was added at the end of the process, to run prepare_kaggle_submission.py
-   averaged_test_path: 
+   averaged_test_path: results_01_09_from_features_1channel_dino/processed_data.pth
    competition_type: whole_images
    use_pretrained_features: True
    train_classifier_head: True
    whole_images: True
    feature_extractor_state_dict: null
-   classifier_state_dict: results_01_09_from_features_1channel_dino//classification_output/classifier_final_protein_whole.pth
+   classifier_state_dict: results_01_18_from_features_1channel//classification_output/classifier_final_protein_whole.pth
    load_classifier_head: False
    train_feature_extractor: False
    epochs: 50
