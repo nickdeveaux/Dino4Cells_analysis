@@ -34,7 +34,7 @@
    averaged_train_path: results_01_09_from_features_1channel_dino/fixed_processed_data.pth
    averaged_valid_path: results_01_09_from_features_1channel_dino/fixed_processed_data.pth
    # The following line was added at the end of the process, to run prepare_kaggle_submission.py
-   averaged_test_path: 
+   averaged_test_path: results_01_09_from_features_1channel_dino/processed_kaggle_test_data.pth 
    competition_type: whole_images
    use_pretrained_features: True
    train_classifier_head: True
