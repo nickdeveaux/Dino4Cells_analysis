@@ -26,12 +26,9 @@ def default_loader(path, training=True):
     #print(f'loaded from disk image time: {time.time() - start}')
     return img
 
-
 def one_channel_loader(path, training=True):
     img = io.imread(path)
-    if training:
-        return [t(img[:, :, i]) for i in range(img.shape[-1])]
-
+    return [img[:, :, i] for i in range(img.shape[-1])]
 
 # Function for HPA whole image aggregation; Example usage
 # image_tensor = load_four_channel_image("/home/nick/0000a892-bacf-11e8-b2b8-ac1f6b6435d0")
@@ -299,12 +296,6 @@ class ImageFileList(data.Dataset):
                 img = [self.transform(i) for i in img]
             else:
                 img = self.transform(img)
-        transformed_get_time = time.time() - loaded_get_time
-        #print(f'transformed image time: {transformed_get_time}')
-        if not self.training:
-            # Print the shape and dtype of each numpy array to get an estimate of memory usage
-            img_memory = img.element_size() * img.nelement()
-            print(f"Image memory: {img_memory / (1024**2):.2f} MB")
         # Return the item
         if self.training:
             return img, ID

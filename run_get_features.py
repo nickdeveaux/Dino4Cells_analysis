@@ -193,7 +193,7 @@ if __name__ == "__main__":
     data_loader = torch.utils.data.DataLoader(
         dataset,
         sampler=sampler,
-        batch_size=config["model"]["batch_size_per_gpu"],
+        batch_size=int(config["model"]["batch_size_per_gpu"]/config["model"]["num_channels"]),
         num_workers=config["embedding"]["num_workers"],
         pin_memory=True,
     )
