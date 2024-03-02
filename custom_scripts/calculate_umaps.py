@@ -43,6 +43,7 @@ def plot_UMAP(df, labels, embedding, title, color_indices):
     plt.show()
 
 fts = torch.load("/mnt/vast/hpc/LDB/LDB_data/microscopy/HPA/whole_images/DINO_features_for_HPA_FOV.pth")
+fts_ids = pd.Series(fts[-1])
 train_idx = torch.load("/mnt/vast/hpc/LDB/LDB_data/microscopy/HPA/whole_images/fovHPA_train_IDs_proteinloc.pth")
 valid_idx = torch.load("/mnt/vast/hpc/LDB/LDB_data/microscopy/HPA/whole_images/fovHPA_valid_IDs_proteinloc.pth")
 train_fts, valid_fts = [], []
