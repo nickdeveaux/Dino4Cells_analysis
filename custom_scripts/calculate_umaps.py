@@ -2,7 +2,6 @@ import umap.umap_ as umap
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
 import pandas as pd
 import os
 from utils.label_dict import protein_to_num_full
