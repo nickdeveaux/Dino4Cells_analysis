@@ -53,4 +53,6 @@ for n in range(4):
     train_fts.append(x[~fts_ids.isin(valid_idx)])
     valid_fts.append(x[fts_ids.isin(valid_idx)])
 import pdb; pdb.set_trace()
-embedding = reducer.fit_transform(train_fts[0][0:150])
+embedding = reducer.fit_transform(train_fts[0])
+test_features = torch.load('/home/wp2181/dino4cells_analysis/results/2024-28-01_fovHPA_VITs//DINO_features_for_HPA_FOV_Kaggle_test.pth')
+test_embeddings = reducer.transform(test_features)
