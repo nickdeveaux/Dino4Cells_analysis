@@ -168,8 +168,20 @@ class residual_add_clf(nn.Module):
             x = self.layers(x)
         x = self.final_layer(x)
         return x
-
+    
 class simple_clf(nn.Module):
+    def __init__(self, n_features, n_classes, p=0.5):
+        super(simple_clf, self).__init__()
+        # Since we only have 'first_layer' and 'final_layer' in the state dict
+        self.first_layer = nn.Linear(n_features, 1024)  # Assuming 1024 is the hidden unit size
+        self.final_layer = nn.Linear(1024, n_classes)  # `n_classes` matches the output layer size
+
+    def forward(self, x):
+        x = F.relu(self.first_layer(x))  # Apply ReLU activation to the output of the first layer
+        x = self.final_layer(x)  # Output from the final layer
+        return x
+    
+class not_so_simple_clf(nn.Module):
     def __init__(self, n_features, n_classes, p=0.5):
         super().__init__()
         self.p = p
