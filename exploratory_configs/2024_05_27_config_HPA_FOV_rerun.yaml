@@ -1,14 +1,14 @@
 model:
   model_type: DINO
   arch: vit_base
-  root: 
+  root: /
   data_path: /mnt/vast/hpc/LDB/LDB_data/microscopy/HPA/whole_images/Master_fovHPA_512_with_file.csv
   output_dir: output/
   datatype: HPA
   image_mode: normalized_4_channels
   saveckp_freq: 50
   batch_size_per_gpu: 24
-  num_channels: 5
+  num_channels: 4
   patch_size: 16
   epochs: 10
   momentum_teacher: 0.996
