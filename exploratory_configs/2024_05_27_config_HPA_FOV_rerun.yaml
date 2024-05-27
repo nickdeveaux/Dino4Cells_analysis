@@ -2,7 +2,7 @@ model:
   model_type: DINO
   arch: vit_base
   root: 
-  data_path: /mnt/vast/hpc/LDB/LDB_data/microscopy/HPA/whole_images/Master_fovHPA_512.csv
+  data_path: /mnt/vast/hpc/LDB/LDB_data/microscopy/HPA/whole_images/Master_fovHPA_512_with_file.csv
   output_dir: output/
   datatype: HPA
   image_mode: normalized_4_channels
