@@ -297,7 +297,7 @@ def get_args_parser():
         distributed training; see https://pytorch.org/docs/stable/distributed.html""",
     )
     parser.add_argument(
-        "--local_rank",
+        "--local-rank",
         default=0,
         type=int,
         help="Please ignore and do not set this argument.",
@@ -561,14 +561,6 @@ def train_dino(args, config):
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     print("Training time {}".format(total_time_str))
 
-
-def save_tensors(tensors, it, path='/home/nick/tensor_cache'):
-    for i, tensor in enumerate(tensors):
-        filename = f'{it}_{i}.pt'
-        filepath = os.path.join(path, filename)
-        torch.save(tensor, filepath)
-
-
 def train_one_epoch(
     student,
     teacher,
@@ -585,20 +577,18 @@ def train_one_epoch(
 ):
     metric_logger = utils.MetricLogger(delimiter="  ")
     header = "Epoch: [{}/{}]".format(epoch, args.epochs)
-    last_time = time.time()
     for it, (images, _) in enumerate(metric_logger.log_every(data_loader, 10, header)):
-        start_time = time.time()  # Start time of the loop
         # update weight decay and learning rate according to their schedule
         it = len(data_loader) * epoch + it  # global training iteration
         for i, param_group in enumerate(optimizer.param_groups):
             param_group["lr"] = lr_schedule[it]
             if i == 0:  # only the first group is regularized
                 param_group["weight_decay"] = wd_schedule[it]
-        # optional -- will fill disk tho : save_tensors(images, it)
+
         # move images to gpu
         images = [im.cuda(non_blocking=True) for im in images]
+		
         # teacher and student forward passes + compute dino loss
-        forward_start_time = time.time()
         with torch.cuda.amp.autocast(fp16_scaler is not None):
             teacher_output = teacher(
                 images[:2]
@@ -610,7 +600,6 @@ def train_one_epoch(
             print("Loss is {}, stopping training".format(loss.item()), force=True)
             sys.exit(1)
 
-        forward_end_time = time.time()
         # student update
         optimizer.zero_grad()
         param_norms = None
@@ -630,7 +619,7 @@ def train_one_epoch(
             utils.cancel_gradients_last_layer(epoch, student, args.freeze_last_layer)
             fp16_scaler.step(optimizer)
             fp16_scaler.update()
-        teacher_update_start_time   = time.time()
+
         # EMA update for the teacher
         with torch.no_grad():
             m = momentum_schedule[it]  # momentum parameter
@@ -647,16 +636,6 @@ def train_one_epoch(
 
         if utils.get_rank() == 0 and os.environ["SIGNAL_RECEIVED"] == "True":
             trigger_job_requeue()
-        loop_time = time.time() - start_time
-        outside_of_loop_time = forward_start_time - last_time
-        forward_time = forward_end_time - forward_start_time
-        student_update_time = teacher_update_start_time - forward_end_time
-        teacher_update_time = time.time() - teacher_update_start_time
-        get_images_time = forward_start_time - start_time
-        last_time = time.time()
-        print(f"Outside of Loop {it} took {outside_of_loop_time:.2f}s")
-        print(f"Loop {it} took {loop_time:.2f}s - Forward: {forward_time:.2f}s, Get_images: {get_images_time:.2f}s")
-        print(f"Student update: {student_update_time:.2f}s, Teacher update: {teacher_update_time:.2f}s")
 
     # gather the stats from all processes
     metric_logger.synchronize_between_processes()

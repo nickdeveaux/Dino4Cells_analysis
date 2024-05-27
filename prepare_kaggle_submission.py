@@ -139,7 +139,8 @@ def run(
     # setup classifier head
     if args.whole_images:
         args.test_path = args.averaged_test_path
-    embed_dim = torch.load(args.test_path)[0].shape[1]
+    embed_dim =  768 #torch.load(args.test_path)[0].shape[1]
+    import pdb; pdb.set_trace()
     classifier = get_classifier(args, embed_dim)
     # args.classifier_state_dict = args.classifier_state_dict.replace(
     #     "protein", "protein_whole" if args.whole_images else "protein"

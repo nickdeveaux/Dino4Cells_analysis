@@ -29,12 +29,7 @@
    averaged_features_path: results/HPA_FOV_classification//averaged_features.pth
    averaged_train_path: results/HPA_FOV_classification//train_features.pth
    averaged_valid_path: results/HPA_FOV_classification//valid_features.pth
-   averaged_test_path: exploratory_configs/config_HPA_FOV_4channel_create_1channel_features_from_train_data_04_29.yaml 
-   cells_train_path: results/HPA_FOV_classification//train_features_cells.pth
-   cells_valid_path: results/HPA_FOV_classification//valid_features_cells.pth
-   train_path: results/HPA_FOV_classification//train_features.pth
-   valid_path: results/HPA_FOV_classification//valid_features.pth
-   test_path: results_04_14_from_features_4channel_dino_kaggle_test_data.pth
+   averaged_test_path: results_04_14_from_features_4channel_dino_kaggle_test_data.pth
    whole_image_submission_file: results/HPA_FOV_classification//submission.csv
    competition_type: whole_images
    use_pretrained_features: True
@@ -59,8 +54,8 @@
    skip: False
    balance: True
    optimizer: AdamW
-   classifier_type: simple_clf
-   num_classes: 19
+   classifier_type: residual_add_clf 
+   num_classes: 28
    loss: BCEWithLogitsLoss
    balance: True
    train_protein: False

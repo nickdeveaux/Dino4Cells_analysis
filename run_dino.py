@@ -11,7 +11,7 @@ parser.add_argument(
     "--master_port",
     type=str,
     default="29501",
-    help='Used GPUs, divided by commas (e.g., "1,2,4")',
+    help='set master port',
 )
 
 args = parser.parse_args()
