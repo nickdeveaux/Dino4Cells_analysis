@@ -20,7 +20,7 @@ from torch.optim.lr_scheduler import OneCycleLR, CosineAnnealingLR, CyclicLR
 from sklearn.metrics import f1_score
 
 # custom code
-from label_dict import protein_to_num_full, protein_to_num_single_cells
+from utils.label_dict import protein_to_num_full, protein_to_num_single_cells
 from utils import get_classifier
 from utils import init_distributed_mode
 from utils import is_main_process
